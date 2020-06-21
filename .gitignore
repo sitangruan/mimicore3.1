@@ -8,6 +8,8 @@ mimicore3.1/obj
 mimicore3.1/publish
 mimicore3.1/Frontend/node_modules
 mimicore3.1/wwwroot
+mimicore3.1/Views/Home
+mimicore3.1/Views/Login
 
 #other files#
 #############
