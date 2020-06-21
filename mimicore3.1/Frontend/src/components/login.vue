@@ -1,20 +1,22 @@
 <template>
   <div class="main">
+    <div class="logo"></div>
+    <div class="appTitle">MIMI Core 3.1</div>
     <div class="content">
       <div class="input">
         <span class="label">User:</span>
       </div>
       <div class="input">
-        <input type="text" />
+        <input type="text" class="value" />
       </div>
       <div class="input">
         <span class="label">Password:</span>
       </div>
       <div class="input">
-        <input type="password" />
+        <input class="value" type="password" />
       </div>
-      <div class="btn">
-        <input type="button" value="Login" />
+      <div class="btnContainer">
+        <input type="button" class="loginBtn" value="Login" />
       </div>
     </div>
   </div>
@@ -27,6 +29,11 @@ export default {
 </script>
 
 <style lang="less">
+@font-face {
+  font-family: 'Oswald-Bold';
+  src: url('../assets/fonts/Oswald-Bold.ttf');
+}
+
 @font-face {
   font-family: 'Oswald-SemiBold';
   src: url('../assets/fonts/Oswald-SemiBold.ttf');
@@ -48,6 +55,24 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .logo {
+    background: url('../assets/images/sitangcircle.png') no-repeat center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+  }
+  .appTitle {
+    font-family: 'Oswald-Bold';
+    color: #870c03;
+    display: font-family;
+    justify-content: center;
+    line-height: 36px;
+    font-size: 36px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
   .content {
     display: flex;
     flex-direction: column;
@@ -60,18 +85,19 @@ body {
           font-family: 'Oswald-SemiBold';
           line-height: 16px;
         }
-        input {
+        .value {
           border-radius: 2px;
           border-width: 1px;
+          font-family: 'Oswald-Regular';
           width: 200px;
           height: 24px;
         }
       }
-      &.btn {
+      &.btnContainer {
         display: flex;
         justify-content: center;
         margin-top: 10px;
-        input {
+        .loginBtn {
           border-radius: 2px;
           border-width: 1px;
           width: 100px;

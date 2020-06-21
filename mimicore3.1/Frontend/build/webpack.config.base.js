@@ -48,6 +48,18 @@ module.exports = {
         test: /\.ttf$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.(png|jpg|jpeg|gif|bmp)$/,
+        use: [
+          {
+            loader: 'url-loader', // Use url-loader so the image size under limit can be converted to BASE64 string
+            options: {
+              limit: '500000',
+              name: 'images/[name].[hash:7].[ext]',
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [

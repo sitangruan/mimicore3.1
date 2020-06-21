@@ -5,3 +5,14 @@ In this application it is using Vue as the front end framework to build a SPA (S
 It has a lot of pain and fun to build this app. I will list them in the future...
 
 Wait for me!
+
+To run the app
+1. First you need to compile the front end source codes. To do that,
+  1) Install node.js in your computer.
+  2) Open a command window and go to the {yoursolutionpath}/mimicore3.1/Frontend directory.
+  3) For the first time running, type "npm install" to install all necessary modules.
+  3) Type "npm run fix" and press enter.
+  4) Type "npm run build" and press enter.
+2. Then you can run the app in Visual Studio 2019 in debug mode
+
+Please be aware, this is a SPA app, so the view files under Views folder are very simple, and it will be updated automatically when you build the front end source codes. You don't need to write any content into them. Indeed I will probably removed that from source codes, only keep the empty folders. And by that you will always have to remember to comiple the front end codes to able to run the app!
