@@ -2,29 +2,62 @@
   <div class="main">
     <div class="logo"></div>
     <div class="appTitle">MIMI Core 3.1</div>
+    <div class="error">
+      {{ errorMsg }}
+    </div>
     <div class="content">
       <div class="input">
         <span class="label">User:</span>
       </div>
       <div class="input">
-        <input type="text" class="value" />
+        <input type="text" class="value" v-model="userName" />
       </div>
       <div class="input">
         <span class="label">Password:</span>
       </div>
       <div class="input">
-        <input class="value" type="password" />
+        <input class="value" type="password" v-model="password" />
       </div>
       <div class="btnContainer">
-        <input type="button" class="loginBtn" value="Login" />
+        <input type="button" class="loginBtn" value="Login" @click="doLogin()" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'login',
+  data() {
+    return {
+      userName: '',
+      password: '',
+      errorMsg: '',
+    };
+  },
+  methods: {
+    doLogin() {
+      axios
+        .post('Login/Index', {
+          UserName: this.userName,
+          Password: this.password,
+        })
+        .then(({ data }) => {
+          if (data.success) {
+            console.log(data);
+            this.errorMsg = '';
+          } else {
+            this.errorMsg = data.errorMessage;
+          }
+        })
+        .catch(error => {
+          this.errorMsg = 'Error happened when trying to login. Please try again!';
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 
@@ -71,7 +104,15 @@ body {
     line-height: 36px;
     font-size: 36px;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
+  }
+  .error {
+    color: red;
+    width: 300px;
+    min-height: 24px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
   }
   .content {
     display: flex;
