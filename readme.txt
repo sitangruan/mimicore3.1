@@ -4,6 +4,8 @@ In this application it is using Vue as the front end framework to build a SPA (S
 
 It has a lot of pain and fun to build this app. I will list them in the future...
 
+It is a mini app and the purpose is to demo the idea to adopt Vue in building a .NET core web SPA application, so it won't be complicated. I only implement it in a simple way. Don't complain if you feel some features are missing!
+
 Wait for me!
 
 To run the app

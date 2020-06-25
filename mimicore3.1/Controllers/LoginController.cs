@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using mimicore3._1.Models;
 using mimicore3._1.Utility;
 
@@ -13,6 +7,12 @@ namespace mimicore3._1.Controllers
 {
     public class LoginController : Controller
     {
+        protected readonly ILogger<LoginController> _logger;
+        public LoginController(ILogger<LoginController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -28,6 +28,7 @@ namespace mimicore3._1.Controllers
             {
                 //Just a basic validation to ensure user name and password are not empty.
                 errorMessage = "The UserName and Password cannot be empty.";
+                _logger.LogWarning("An invalid login attemp with empty UserName or Password.");
             }
             else if (loginModel.UserName.Equals(loginModel.Password))
             {
@@ -35,10 +36,12 @@ namespace mimicore3._1.Controllers
                 success = true;
                 var currentUser = new User() { UserName = loginModel.UserName };
                 HttpContext.Session.Set("CurrentUser", ByteConvertHelper.Object2Bytes(currentUser));
+                _logger.LogInformation($"{loginModel.UserName} successfully login.");
             }
             else
             {
                 errorMessage = "The UserName and Password don't match.";
+                _logger.LogWarning($"\"{loginModel.UserName}\" is trying to login with an unmatched password.");
             }
 
             return Json(new LoginResult()
@@ -52,14 +55,12 @@ namespace mimicore3._1.Controllers
     public class LoginModel
     {
         public string UserName { get; set; }
-
         public string Password { get; set; }
     }
 
     public class LoginResult
     {
         public bool Success { get; set; }
-
         public string ErrorMessage { get; set; }
     }
 }
