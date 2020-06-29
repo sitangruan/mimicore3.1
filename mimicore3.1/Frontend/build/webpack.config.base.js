@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     login: './src/pages/login/login.js',
+    home: './src/pages/home/home.js',
   },
   output: {
     path: path.resolve(__dirname, '../../wwwroot'),
@@ -76,6 +77,17 @@ module.exports = {
         removeAttributeQuotes: true,
       },
       chunks: ['manifest', 'vendor', 'login'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/pages/home/home.html',
+      filename: '../Views/Home/index.cshtml',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+      },
+      chunks: ['manifest', 'vendor', 'home'],
     }),
     new VueLoaderPlugin(),
     new ExtractTextPlugin({

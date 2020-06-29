@@ -46,8 +46,8 @@ export default {
         })
         .then(({ data }) => {
           if (data.success) {
-            console.log(data);
             this.errorMsg = '';
+            window.location.href = 'Home/Index';
           } else {
             this.errorMsg = data.errorMessage;
           }
