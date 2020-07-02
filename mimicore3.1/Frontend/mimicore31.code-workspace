@@ -1,0 +1,36 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		
+		"eslint.enable": true,
+		"eslint.autoFixOnSave": true,
+		"eslint.validate": [
+			{
+				"language": "vue",
+				"autoFix": true
+			},
+			{
+				"language": "html",
+				"autoFix": true
+			},
+			{
+				"language": "javascript",
+				"autoFix": true
+			}
+		],
+		"git.ignoreMissingGitWarning": true,
+		"files.eol": "\n",
+		"git.confirmSync": false,
+		"editor.formatOnSave": false,
+		"vetur.validation.template": false,
+		"vetur.validation.style": false,
+		"vetur.validation.script": false,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+	}
+}

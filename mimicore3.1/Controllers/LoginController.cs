@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using mimicore3._1.Models;
 using mimicore3._1.Utility;
@@ -15,6 +16,15 @@ namespace mimicore3._1.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.TryGetValue("CurrentUser", out var result) && result != null)
+            {
+                return new RedirectToRouteResult(new RouteValueDictionary(new
+                {
+                    controller = "Home",
+                    action = "Index"
+                }));
+            }
+
             return View();
         }
 

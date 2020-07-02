@@ -1,13 +1,10 @@
-function getComponent() {
-  const myComp = document.createElement('input');
-  myComp.type = 'button';
-  myComp.value = 'Click me to test';
-  myComp.onclick = () => {
-    alert('The Home page is comming soon!');
-  };
-  console.log(myComp);
-  return myComp;
-}
+import Vue from 'vue';
+import Home from '../../components/home';
 
-const newBtn = getComponent();
-document.body.appendChild(newBtn);
+new Vue({
+  el: '#app',
+  components: {
+    Home,
+  },
+  template: '<Home />',
+});
