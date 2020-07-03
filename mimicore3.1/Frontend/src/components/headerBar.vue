@@ -5,12 +5,12 @@
       <div class="slogan">Mimi Core 3.1</div>
     </div>
     <div class="settingContainer">
-      <div class="settingTop">
+      <div class="settingTop" @click="toggleSettingDropdown()">
         <div class="user">{{ currentUser }}</div>
-        <div class="arrowDown" :class="[isSettingExpanded ? 'up' : '']" @click="toggleSettingDropdown()"></div>
+        <div class="arrowDown" :class="[isSettingExpanded ? 'up' : '']"></div>
       </div>
       <transition name="fade">
-        <div class="settingDropdown" v-if="isSettingExpanded">
+        <div v-click-outside="clickOutsideSetting" class="settingDropdown" v-if="isSettingExpanded">
           <div class="settingDropdownItem">Help</div>
           <div class="settingDropdownItem">Logout</div>
         </div>
@@ -20,17 +20,31 @@
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside';
+
 export default {
   name: 'headerBar',
   data() {
     return {
       currentUser: 'Sitang',
       isSettingExpanded: false,
+      expandClicked: false,
     };
+  },
+  directives: {
+    ClickOutside,
   },
   methods: {
     toggleSettingDropdown() {
+      this.expandClicked = true;
       this.isSettingExpanded = !this.isSettingExpanded;
+    },
+    clickOutsideSetting() {
+      if (!this.expandClicked && this.isSettingExpanded) {
+        this.isSettingExpanded = false;
+      } else {
+        this.expandClicked = false;
+      }
     },
   },
   created() {},
