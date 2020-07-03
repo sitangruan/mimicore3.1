@@ -18,3 +18,8 @@ To run the app
 2. Then you can run the app in Visual Studio 2019 in debug mode
 
 Please be aware, this is a SPA app, so the view files under Views folder are very simple, and it will be updated automatically when you build the front end source codes. You don't need to write any content into them. Indeed I will probably removed that from source codes, only keep the empty folders. And by that you will always have to remember to comiple the front end codes to able to run the app!
+
+It demo these usages of Vue
+1. Component creation
+2. Transition for menu list animatiion
+3. Axios for API calling

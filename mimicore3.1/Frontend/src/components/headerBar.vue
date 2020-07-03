@@ -4,8 +4,17 @@
       <div class="logo"></div>
       <div class="slogan">Mimi Core 3.1</div>
     </div>
-    <div class="action">
-      Action to be implemented
+    <div class="settingContainer">
+      <div class="settingTop">
+        <div class="user">{{ currentUser }}</div>
+        <div class="arrowDown" :class="[isSettingExpanded ? 'up' : '']" @click="toggleSettingDropdown()"></div>
+      </div>
+      <transition name="fade">
+        <div class="settingDropdown" v-if="isSettingExpanded">
+          <div class="settingDropdownItem">Help</div>
+          <div class="settingDropdownItem">Logout</div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -13,6 +22,18 @@
 <script>
 export default {
   name: 'headerBar',
+  data() {
+    return {
+      currentUser: 'Sitang',
+      isSettingExpanded: false,
+    };
+  },
+  methods: {
+    toggleSettingDropdown() {
+      this.isSettingExpanded = !this.isSettingExpanded;
+    },
+  },
+  created() {},
 };
 </script>
 
@@ -40,9 +61,50 @@ export default {
       text-transform: uppercase;
     }
   }
-  .action {
-    display: flex;
-    align-items: center;
+  .settingContainer {
+    overflow: visible;
+    width: 80px;
+    .settingTop {
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .user {
+      }
+      .arrowDown {
+        background: url('../assets/images/arrow_down.png') no-repeat center;
+        background-size: 100% 100%;
+        width: 24px;
+        height: 24px;
+        &.up {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.5s;
+    }
+    .fade-enter,
+    .fade-leave-to {
+      opacity: 0;
+    }
+    .settingDropdown {
+      display: flex;
+      flex-direction: column;
+      .settingDropdownItem {
+        line-height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 1px 6px 0 rgba(60, 73, 112, 0.25);
+        cursor: pointer;
+        &:hover {
+          background-color: #dddddd;
+        }
+      }
+    }
   }
 }
 </style>
