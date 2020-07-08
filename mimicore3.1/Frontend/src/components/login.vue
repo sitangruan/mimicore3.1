@@ -77,10 +77,21 @@ export default {
   src: url('../assets/fonts/Oswald-Regular.ttf');
 }
 
+html,
 body {
-  min-width: 1280px;
+  overflow: auto;
+  -ms-overflow-style: auto;
+  height: 100%;
+  width: 100%;
+}
+
+body {
   min-height: 600px;
-  font-family: 'Oswald-Regular';
+  min-width: 1080px;
+  font-family: Oswald-Regular;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
 }
 .main {
   min-height: 500px;

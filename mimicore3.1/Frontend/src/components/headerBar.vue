@@ -73,6 +73,7 @@ export default {
       font-family: Oswald-Bold;
       font-size: 24px;
       text-transform: uppercase;
+      color: #870c03;
     }
   }
   .settingContainer {
