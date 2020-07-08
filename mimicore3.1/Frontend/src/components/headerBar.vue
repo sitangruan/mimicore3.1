@@ -79,9 +79,10 @@ export default {
   .settingContainer {
     overflow: visible;
     width: 80px;
+    cursor: pointer;
+    z-index: 10;
     .settingTop {
       height: 40px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -114,9 +115,9 @@ export default {
         justify-content: center;
         align-items: center;
         box-shadow: 0 1px 6px 0 rgba(60, 73, 112, 0.25);
-        cursor: pointer;
+        transition: all 0.2s ease-in-out;
         &:hover {
-          background-color: #dddddd;
+          background-color: #a9c5d4;
         }
       }
     }
