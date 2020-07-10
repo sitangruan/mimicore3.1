@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using mimicore3._1.Models;
 using mimicore3._1.Utility;
+using System.Collections.Generic;
 
 namespace mimicore3._1.Controllers
 {
@@ -44,7 +45,39 @@ namespace mimicore3._1.Controllers
             {
                 //We implement the simplest validation by comparing the user name and password to be same. That is only for dmeo.
                 success = true;
-                var currentUser = new User() { UserName = loginModel.UserName };
+
+                //Here we hard code some modules and user's permissions to each of them. You can modify to test.
+                var modules = new List<ModulePermission>
+                {
+                    new ModulePermission()
+                    {
+                        Index = 0,
+                        ModuleName = "Employee",
+                        RouterPath = "/employee",
+                        RouterName = "Employee",
+                        IsEnabled = true,
+                        IsVisible = true,
+                    },
+                    new ModulePermission()
+                    {
+                        Index = 1,
+                        ModuleName = "Order",
+                        RouterPath = "/order",
+                        RouterName = "Order",
+                        IsEnabled = true,
+                        IsVisible = true,
+                    },
+                    new ModulePermission()
+                    {
+                        Index = 2,
+                        ModuleName = "Log",
+                        RouterPath = "/log",
+                        RouterName = "Log",
+                        IsEnabled = false,
+                        IsVisible = true,
+                    },
+                };
+                var currentUser = new User() { Name = loginModel.UserName, Modules = modules };
                 HttpContext.Session.Set("CurrentUser", ByteConvertHelper.Object2Bytes(currentUser));
                 _logger.LogInformation($"{loginModel.UserName} successfully login.");
             }

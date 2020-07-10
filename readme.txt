@@ -15,6 +15,8 @@ To run the app
   5) Type "npm run build" and press enter.
 2. Then you can run the app in Visual Studio 2019 in debug mode
 
+Secret: to login, you just need to ensure user name equal to password.
+
 Please be aware, this is a SPA app, so the view files under Views folder are very simple, and it will be updated automatically when you build the front end source codes. You don't need to write any content into them. Indeed I will probably removed that from source codes, only keep the empty folders. And by that you will always have to remember to comiple the front end codes to able to run the app!
 
 It demo these usages of Vue
@@ -22,3 +24,4 @@ It demo these usages of Vue
 2. Transition for menu list animation
 3. Axios for API calling
 4. Vue-router for routing
+5. Vuex to store the common state info like user's profile and his module permissions.

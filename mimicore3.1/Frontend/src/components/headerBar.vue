@@ -6,7 +6,7 @@
     </div>
     <div class="settingContainer">
       <div class="settingTop" @click="toggleSettingDropdown()">
-        <div class="user">{{ currentUser }}</div>
+        <div class="user">{{ currentUser.name }}</div>
         <div class="arrowDown" :class="[isSettingExpanded ? 'up' : '']"></div>
       </div>
       <transition name="fade">
@@ -20,13 +20,17 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import ClickOutside from 'vue-click-outside';
 
 export default {
   name: 'headerBar',
+  computed: {
+    ...mapGetters('user', ['currentUser']),
+  },
   data() {
     return {
-      currentUser: 'Sitang',
+      currentUserName: 'Sitang',
       isSettingExpanded: false,
       expandClicked: false,
     };
@@ -35,6 +39,7 @@ export default {
     ClickOutside,
   },
   methods: {
+    ...mapActions('user', ['getCurrentUser']),
     toggleSettingDropdown() {
       this.expandClicked = true;
       this.isSettingExpanded = !this.isSettingExpanded;
@@ -47,7 +52,9 @@ export default {
       }
     },
   },
-  created() {},
+  created() {
+    this.getCurrentUser();
+  },
 };
 </script>
 

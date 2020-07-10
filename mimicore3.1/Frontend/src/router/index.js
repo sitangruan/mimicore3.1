@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Employee from '../components/employee';
 import Order from '../components/order';
+import Log from '../components/log';
 
 Vue.use(Router);
 
@@ -13,6 +14,11 @@ const router = new Router({
       path: '/order',
       name: 'Order',
       component: Order,
+    },
+    {
+      path: '/log',
+      name: 'Log',
+      component: Log,
     },
   ],
 });
