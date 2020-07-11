@@ -69,7 +69,7 @@ export default {
     display: flex;
     align-items: center;
     .logo {
-      background: url('../assets/images/sitangcircle.png') no-repeat center;
+      background: url('../../assets/images/sitangcircle.png') no-repeat center;
       background-size: 100% 100%;
       border-radius: 50%;
       width: 30px;
@@ -96,7 +96,7 @@ export default {
       .user {
       }
       .arrowDown {
-        background: url('../assets/images/arrow_down.png') no-repeat center;
+        background: url('../../assets/images/arrow_down.png') no-repeat center;
         background-size: 100% 100%;
         width: 24px;
         height: 24px;

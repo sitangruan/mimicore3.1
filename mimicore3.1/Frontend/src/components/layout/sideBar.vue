@@ -1,13 +1,13 @@
 <template>
   <div class="side">
     <router-link
-      v-for="menu in currentUser.modules.filter(m => m.isVisible)"
+      v-for="menu in menus"
       :key="menu.index"
       :to="menu.routerPath"
       class="menuItem"
       :class="[currentIndex === menu.index ? 'isFocus' : '', menu.isEnabled ? '' : 'isDisabled']"
       @click.native="focusMenu(menu.index)"
-      ><span>{{ menu.routerName }}</span></router-link
+      ><span>{{ menu.routerDisplayName }}</span></router-link
     >
   </div>
 </template>
@@ -18,22 +18,10 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'SideBar',
   computed: {
-    ...mapGetters('user', ['currentUser']),
+    ...mapGetters('user', ['currentUser', 'menus']),
   },
   data() {
     return {
-      menus: [
-        {
-          index: 0,
-          path: '/employee',
-          name: 'Employee',
-        },
-        {
-          index: 1,
-          path: '/order',
-          name: 'Order',
-        },
-      ],
       currentIndex: 0,
     };
   },

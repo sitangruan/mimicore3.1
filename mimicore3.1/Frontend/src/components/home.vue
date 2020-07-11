@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import HeaderBar from './headerBar';
-import SideBar from './sideBar';
+import HeaderBar from './layout/headerBar';
+import SideBar from './layout/sideBar';
 
 export default {
   name: 'home',

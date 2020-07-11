@@ -47,36 +47,7 @@ namespace mimicore3._1.Controllers
                 success = true;
 
                 //Here we hard code some modules and user's permissions to each of them. You can modify to test.
-                var modules = new List<ModulePermission>
-                {
-                    new ModulePermission()
-                    {
-                        Index = 0,
-                        ModuleName = "Employee",
-                        RouterPath = "/employee",
-                        RouterName = "Employee",
-                        IsEnabled = true,
-                        IsVisible = true,
-                    },
-                    new ModulePermission()
-                    {
-                        Index = 1,
-                        ModuleName = "Order",
-                        RouterPath = "/order",
-                        RouterName = "Order",
-                        IsEnabled = true,
-                        IsVisible = true,
-                    },
-                    new ModulePermission()
-                    {
-                        Index = 2,
-                        ModuleName = "Log",
-                        RouterPath = "/log",
-                        RouterName = "Log",
-                        IsEnabled = false,
-                        IsVisible = true,
-                    },
-                };
+                var modules = GenerateMockPermissions();
                 var currentUser = new User() { Name = loginModel.UserName, Modules = modules };
                 HttpContext.Session.Set("CurrentUser", ByteConvertHelper.Object2Bytes(currentUser));
                 _logger.LogInformation($"{loginModel.UserName} successfully login.");
@@ -92,6 +63,45 @@ namespace mimicore3._1.Controllers
                 Success = success,
                 ErrorMessage = errorMessage
             });
+        }
+
+        private List<ModulePermission> GenerateMockPermissions()
+        {
+            var modules = new List<ModulePermission>
+                {
+                    new ModulePermission()
+                    {
+                        Index = 0,
+                        ModuleName = "Employee",
+                        RouterPath = "/employee",
+                        RouterName = "Employee",
+                        RouterDisplayName = "Employees",
+                        IsEnabled = true,
+                        IsVisible = true,
+                    },
+                    new ModulePermission()
+                    {
+                        Index = 1,
+                        ModuleName = "Order",
+                        RouterPath = "/order",
+                        RouterName = "Order",
+                        RouterDisplayName = "Orders",
+                        IsEnabled = true,
+                        IsVisible = true,
+                    },
+                    new ModulePermission()
+                    {
+                        Index = 2,
+                        ModuleName = "Log",
+                        RouterPath = "/log",
+                        RouterName = "Log",
+                        RouterDisplayName = "Logs",
+                        IsEnabled = false,
+                        IsVisible = true,
+                    },
+                };
+
+            return modules;
         }
     }
 

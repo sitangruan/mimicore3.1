@@ -7,6 +7,12 @@ const state = {
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const getters = {
   currentUser: state => state.currentUser,
+  menus: state => {
+    if (state.currentUser && state.currentUser.modules) {
+      return state.currentUser.modules.filter(m => m.isVisible);
+    }
+    return [];
+  },
 };
 
 const actions = {
@@ -14,7 +20,6 @@ const actions = {
     axios
       .get('/Home/GetUser')
       .then(({ data }) => {
-        console.log(data);
         commit('setCurrentUser', data);
       })
       .catch(error => {

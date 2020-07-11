@@ -10,6 +10,8 @@
 
         public string RouterName { get; set; }
 
+        public string RouterDisplayName { get; set; }
+
         public bool IsEnabled { get; set; }
 
         public bool IsVisible { get; set; }
