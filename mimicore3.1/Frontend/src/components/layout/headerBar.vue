@@ -30,7 +30,6 @@ export default {
   },
   data() {
     return {
-      currentUserName: 'Sitang',
       isSettingExpanded: false,
       expandClicked: false,
     };

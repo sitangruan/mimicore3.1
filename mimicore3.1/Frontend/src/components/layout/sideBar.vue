@@ -1,7 +1,7 @@
 <template>
   <div class="side">
     <router-link
-      v-for="menu in menus"
+      v-for="menu in currentUser.modules.filter(m => m.isVisible)"
       :key="menu.index"
       :to="menu.routerPath"
       class="menuItem"
@@ -18,7 +18,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'SideBar',
   computed: {
-    ...mapGetters('user', ['currentUser', 'menus']),
+    ...mapGetters('user', ['currentUser']),
   },
   data() {
     return {

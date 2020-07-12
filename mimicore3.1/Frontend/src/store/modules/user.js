@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiCaller from '../../api/apiCaller';
 
 const state = {
   currentUser: {},
@@ -6,25 +6,28 @@ const state = {
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const getters = {
-  currentUser: state => state.currentUser,
-  menus: state => {
-    if (state.currentUser && state.currentUser.modules) {
-      return state.currentUser.modules.filter(m => m.isVisible);
+  currentUser: state => {
+    if (state.currentUser && state.currentUser.name && state.currentUser.name !== '') {
+      // If currentUser is loaded
+      return state.currentUser;
     }
-    return [];
+    return {
+      name: '',
+      modules: [],
+    };
   },
 };
 
 const actions = {
   getCurrentUser({ commit }) {
-    axios
-      .get('/Home/GetUser')
-      .then(({ data }) => {
+    apiCaller.getCurrentUser(
+      data => {
         commit('setCurrentUser', data);
-      })
-      .catch(error => {
+      },
+      error => {
         console.log(error);
-      });
+      },
+    );
   },
 };
 
