@@ -22,7 +22,7 @@ namespace mimicore3._1.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var currentUser = GetCurrentUser(context);
-            if (currentUser == null || DateTime.Now.Second % 7 == 0)
+            if (currentUser == null)
             {
                 _logger.LogDebug("Un-autherized request.");
                 HttpContext.Session.Clear();
