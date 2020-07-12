@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using mimicore3._1.Middleware;
 
 namespace mimicore3._1
 {
@@ -44,6 +45,7 @@ namespace mimicore3._1
                 app.UseHsts();
             }
 
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
