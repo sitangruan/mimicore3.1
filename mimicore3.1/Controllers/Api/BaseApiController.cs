@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using mimicore3._1.CustomException;
 using mimicore3._1.Models;
 using mimicore3._1.Utility;
-using System;
 using System.Net;
 
 namespace mimicore3._1.Controllers
