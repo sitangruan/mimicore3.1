@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="orderModal">
     This is Order component
   </div>
 </template>
@@ -10,4 +10,11 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.orderModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+}
+</style>
