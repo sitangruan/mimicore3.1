@@ -74,7 +74,7 @@ namespace mimicore3._1.Dal
             {
                 Id = 1,
                 FirstName = "Leonardo",
-                LastName = "DiCaprios",
+                LastName = "DiCaprio",
                 CityId = 9,
                 Address = "999 Walls drive",
                 DepartmentId = 4,
