@@ -50,7 +50,7 @@ namespace mimicore3._1.Dal
 
             empls.Add(new Employee
             {
-                Id = 1,
+                Id = 2,
                 FirstName = "Johny",
                 LastName = "Depp",
                 CityId = 11,
@@ -61,7 +61,7 @@ namespace mimicore3._1.Dal
 
             empls.Add(new Employee
             {
-                Id = 1,
+                Id = 3,
                 FirstName = "Debroah",
                 LastName = "Cox",
                 CityId = 6,
@@ -72,7 +72,7 @@ namespace mimicore3._1.Dal
 
             empls.Add(new Employee
             {
-                Id = 1,
+                Id = 4,
                 FirstName = "Leonardo",
                 LastName = "DiCaprio",
                 CityId = 9,

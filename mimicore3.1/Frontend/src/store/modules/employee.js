@@ -4,6 +4,10 @@ const state = {
   employees: [],
   currentEmployeeId: 0,
   activeComponentIndex: 0,
+  sortingField: {
+    name: 'firstName',
+    asc: true,
+  },
 };
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
@@ -12,6 +16,7 @@ const getters = {
   currentEmployeeId: state => state.currentEmployeeId,
   currentEmployee: state => state.employees.find(emp => emp.id === state.currentEmployeeId),
   activeComponentIndex: state => state.activeComponentIndex,
+  sortingField: state => state.sortingField,
 };
 
 const actions = {
@@ -41,6 +46,16 @@ const mutations = {
   },
   setActiveComponentIndex(state, payload) {
     state.activeComponentIndex = payload;
+  },
+  setSortingColumn(state, payload) {
+    if (typeof payload !== 'undefined') {
+      if (payload === state.sortingField.name) {
+        state.sortingField.asc = !state.sortingField.asc;
+      } else {
+        state.sortingField.name = payload;
+        state.sortingField.asc = true;
+      }
+    }
   },
 };
 

@@ -1,7 +1,13 @@
 <template>
   <div class="listView">
     <div class="row header">
-      <div v-for="col in columns" :key="col.fieldName" class="title" :class="col.className" @click="doSorting(col)">
+      <div
+        v-for="col in columns"
+        :key="col.fieldName"
+        class="title"
+        :class="col.className"
+        @click="doSorting(col.fieldName)"
+      >
         <div>{{ col.title }}</div>
         <div
           class="icon"
@@ -19,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'EmployeeListView',
@@ -52,14 +58,10 @@ export default {
           title: 'Create Date',
         },
       ],
-      sortingField: {
-        name: 'firstName',
-        asc: true,
-      },
     };
   },
   computed: {
-    ...mapGetters('employee', ['employees']),
+    ...mapGetters('employee', ['employees', 'sortingField']),
     sortedEmps() {
       return this.employees.slice().sort((a, b) => {
         const biggerValue = this.sortingField.asc ? 1 : -1;
@@ -88,13 +90,9 @@ export default {
     },
   },
   methods: {
-    doSorting(col) {
-      if (col.fieldName === this.sortingField.name) {
-        this.sortingField.asc = !this.sortingField.asc;
-      } else {
-        this.sortingField.name = col.fieldName;
-        this.sortingField.asc = true;
-      }
+    ...mapMutations('employee', ['setSortingColumn']),
+    doSorting(fieldName) {
+      this.setSortingColumn(fieldName);
     },
   },
 };
