@@ -14,11 +14,18 @@
           :class="[col.fieldName === sortingField.name ? 'isSorted' : '', sortingField.asc ? '' : 'desc']"
         ></div>
       </div>
+      <div class="title colOperation">
+        <div>Operation</div>
+      </div>
     </div>
-    <div v-for="emp in sortedEmps" :key="emp.id" class="row data">
+    <div v-for="emp in sortedEmployees" :key="emp.id" class="row data">
       <div v-for="col in columns" :key="col.fieldName" class="cell" :class="col.className">
         <div v-if="col.fieldName === 'createDate'">{{ emp[col.fieldName] | moment('YYYY-MM-DD') }}</div>
         <div v-else>{{ emp[col.fieldName] }}</div>
+      </div>
+      <div class="cell colOperation">
+        <div class="icon edit" title="Edit"></div>
+        <div class="icon delete" title="Delete"></div>
       </div>
     </div>
   </div>
@@ -61,33 +68,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('employee', ['employees', 'sortingField']),
-    sortedEmps() {
-      return this.employees.slice().sort((a, b) => {
-        const biggerValue = this.sortingField.asc ? 1 : -1;
-        const smallerValue = 0 - biggerValue;
-        if (this.sortingField.name === 'createDate') {
-          if (a.createDate > b.createDate) {
-            return biggerValue;
-          }
-          if (a.createDate < b.createDate) {
-            return smallerValue;
-          }
-
-          return 0;
-        }
-
-        const x = a[this.sortingField.name].toLowerCase();
-        const y = b[this.sortingField.name].toLowerCase();
-        if (x > y) {
-          return biggerValue;
-        }
-        if (x < y) {
-          return smallerValue;
-        }
-        return 0;
-      });
-    },
+    ...mapGetters('employee', ['sortedEmployees', 'sortingField']),
   },
   methods: {
     ...mapMutations('employee', ['setSortingColumn']),
@@ -139,6 +120,26 @@ export default {
           width: 120px;
           flex-grow: 1;
         }
+        &.colOperation {
+          width: 120px;
+          flex-grow: 0;
+          display: flex;
+          align-items: center;
+          .icon {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            &.edit {
+              background: url('../../assets/images/edit.png') no-repeat center;
+              background-size: 100% 100%;
+              margin-right: 10px;
+            }
+            &.delete {
+              background: url('../../assets/images/delete.png') no-repeat center;
+              background-size: 100% 100%;
+            }
+          }
+        }
       }
     }
     &.header {
@@ -169,6 +170,10 @@ export default {
         &.colCreateDate {
           width: 120px;
           flex-grow: 1;
+        }
+        &.colOperation {
+          width: 120px;
+          flex-grow: 0;
         }
         .icon {
           width: 8px;
