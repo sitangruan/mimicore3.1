@@ -45,5 +45,12 @@ namespace mimicore3._1.Controllers.Api
 
             return views.ToList();
         }
+
+        [HttpDelete]
+        public IActionResult DeleteEmployee(int Id)
+        {
+            EmployeesProvider.RemoveEmployee(Id);
+            return NoContent();
+        }
     }
 }

@@ -2,7 +2,7 @@
   <div class="listView">
     <div class="row header">
       <div
-        v-for="col in columns"
+        v-for="col in gridColumns"
         :key="col.fieldName"
         class="title"
         :class="col.className"
@@ -19,59 +19,29 @@
       </div>
     </div>
     <div v-for="emp in sortedEmployees" :key="emp.id" class="row data">
-      <div v-for="col in columns" :key="col.fieldName" class="cell" :class="col.className">
+      <div v-for="col in gridColumns" :key="col.fieldName" class="cell" :class="col.className">
         <div v-if="col.fieldName === 'createDate'">{{ emp[col.fieldName] | moment('YYYY-MM-DD') }}</div>
         <div v-else>{{ emp[col.fieldName] }}</div>
       </div>
       <div class="cell colOperation">
         <div class="icon edit" title="Edit"></div>
-        <div class="icon delete" title="Delete"></div>
+        <div class="icon delete" title="Delete" @click="deleteEmployee(emp[idField])"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'EmployeeListView',
-  data() {
-    return {
-      columns: [
-        {
-          fieldName: 'firstName',
-          className: 'colFirstName',
-          title: 'First Name',
-        },
-        {
-          fieldName: 'lastName',
-          className: 'colLastName',
-          title: 'Last Name',
-        },
-        {
-          fieldName: 'cityName',
-          className: 'colCityName',
-          title: 'CityName',
-        },
-        {
-          fieldName: 'departmentName',
-          className: 'colDepartmentName',
-          title: 'Department Name',
-        },
-        {
-          fieldName: 'createDate',
-          className: 'colCreateDate',
-          title: 'Create Date',
-        },
-      ],
-    };
-  },
   computed: {
-    ...mapGetters('employee', ['sortedEmployees', 'sortingField']),
+    ...mapGetters('employee', ['sortedEmployees', 'sortingField', 'gridColumns', 'idField']),
   },
   methods: {
     ...mapMutations('employee', ['setSortingColumn']),
+    ...mapActions('employee', ['deleteEmployee']),
     doSorting(fieldName) {
       this.setSortingColumn(fieldName);
     },

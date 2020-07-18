@@ -9,6 +9,34 @@ const state = {
     asc: true,
   },
   filterValue: '',
+  idField: 'id',
+  gridColumns: [
+    {
+      fieldName: 'firstName',
+      className: 'colFirstName',
+      title: 'First Name',
+    },
+    {
+      fieldName: 'lastName',
+      className: 'colLastName',
+      title: 'Last Name',
+    },
+    {
+      fieldName: 'cityName',
+      className: 'colCityName',
+      title: 'CityName',
+    },
+    {
+      fieldName: 'departmentName',
+      className: 'colDepartmentName',
+      title: 'Department Name',
+    },
+    {
+      fieldName: 'createDate',
+      className: 'colCreateDate',
+      title: 'Create Date',
+    },
+  ],
 };
 
 function compareEmployee(stateParam) {
@@ -62,6 +90,8 @@ const getters = {
   activeComponentIndex: state => state.activeComponentIndex,
   sortingField: state => state.sortingField,
   filterValue: state => state.filterValue,
+  gridColumns: state => state.gridColumns,
+  idField: state => state.idField,
 };
 
 const actions = {
@@ -69,6 +99,17 @@ const actions = {
     apiCaller.getEmployees(
       data => {
         commit('setEmployees', data);
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  },
+  deleteEmployee({ dispatch }, id) {
+    apiCaller.deleteEmployee(
+      id,
+      () => {
+        dispatch('getEmployees');
       },
       error => {
         console.log(error);

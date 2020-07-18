@@ -11,6 +11,7 @@ import axios from 'axios';
 const urls = {
   getCurrentUser: '/Home/GetUser',
   getEmployees: '/Employee/GetEmployees',
+  deleteEmployee: '/Employee/DeleteEmployee',
 };
 
 function callbackWrapper(data, originalCallBack) {
@@ -45,6 +46,16 @@ export default {
   getEmployees(callback, errorHandler) {
     axios
       .get(urls.getEmployees)
+      .then(({ data }) => {
+        callbackWrapper(data, callback);
+      })
+      .catch(error => {
+        errorHandlerWrapper(error, errorHandler);
+      });
+  },
+  deleteEmployee(id, callback, errorHandler) {
+    axios
+      .delete(`${urls.deleteEmployee}/${id}`)
       .then(({ data }) => {
         callbackWrapper(data, callback);
       })

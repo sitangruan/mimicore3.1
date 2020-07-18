@@ -16,7 +16,7 @@
         <span class="label">Password:</span>
       </div>
       <div class="input">
-        <input class="value" type="password" v-model="password" />
+        <input class="value" type="password" v-model="password" @keypress.enter="doLogin()" />
       </div>
       <div class="btnContainer">
         <input type="button" class="loginBtn" value="Login" @click="doLogin()" />
