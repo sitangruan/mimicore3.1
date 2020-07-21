@@ -3,6 +3,7 @@
     <input
       :name="inputName"
       type="text"
+      :class="{ hasFocus: this.isFocus || this.innerValue !== '' }"
       @input="onInput"
       @change="$emit('change')"
       @focus="onFocus"
@@ -19,42 +20,23 @@ export default {
     inputValue: String,
     inputName: String,
   },
-  computed: {
-    labelOnRightPosition() {
-      if (typeof this.$el !== 'undefined' && typeof this.$el.querySelector('label') !== 'undefined') {
-        const offset = this.$el.clientWidth - this.$el.querySelector('label').clientWidth - this.labelPadding;
-        return offset;
-      }
-      return this.labelPadding;
-    },
-  },
   data() {
     return {
       innerValue: this.inputValue,
       isFocus: false,
-      labelPadding: 5,
     };
   },
   methods: {
-    resetLabelPosition() {
-      if (this.isFocus || this.inputValue !== '') {
-        this.$el.querySelector('label').style.left = `${this.labelOnRightPosition}px`;
-      } else {
-        this.$el.querySelector('label').style.left = `${this.labelPadding}px`;
-      }
-    },
     onInput() {
       this.$emit('update:inputValue', this.innerValue);
       this.$emit('input');
     },
     onFocus() {
       this.isFocus = true;
-      this.resetLabelPosition();
       this.$emit('focus');
     },
     onBlur() {
       this.isFocus = false;
-      this.resetLabelPosition();
     },
     onLabelClick(event) {
       event.preventDefault();
@@ -64,9 +46,7 @@ export default {
   mounted() {
     const label = this.$el.querySelector('label');
     const input = this.$el.querySelector('input');
-    input.style.padding = `0 ${label.clientWidth + this.labelPadding}px 0 ${this.labelPadding}px`;
-
-    this.resetLabelPosition();
+    input.style.padding = `0 ${label.clientWidth}px 0 5px`;
   },
 };
 </script>
@@ -87,14 +67,20 @@ export default {
     min-height: 28px;
     height: 100%;
     font-family: Oswald-Regular;
-    &:focus {
-      border: 0;
-    }
   }
   label {
     position: absolute;
     color: #888888;
+    padding: 0 5px;
+    left: 0px;
+    top: 50%;
+    white-space: nowrap;
+    transform: translateY(-50%);
     transition: all 0.3s ease-in-out;
+  }
+  input.hasFocus + label {
+    left: 100%;
+    transform: translate(-100%, -50%);
   }
 }
 </style>
