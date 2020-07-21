@@ -6,16 +6,36 @@
         <div>Create New Employee</div>
       </div>
     </div>
+    <div class="editModal">
+      <cool-input :inputValue.sync="firstName" inputName="First Name"></cool-input>
+      <br />
+      <cool-input :inputValue.sync="lastName" inputName="Last Name"></cool-input>
+      <input type="button" @click="clickMe" value="testme" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import CoolInput from '../common/coolInput';
 
 export default {
   name: 'CreateEditEmployee',
+  data() {
+    return {
+      firstName: '',
+      lastName: '',
+    };
+  },
+  components: {
+    CoolInput,
+  },
   methods: {
     ...mapActions('employee', ['navigateToGridPage']),
+    clickMe() {
+      console.log('First Name');
+      console.log(this.firstName);
+    },
   },
 };
 </script>
@@ -42,6 +62,8 @@ export default {
         margin-right: 10px;
       }
     }
+  }
+  .editModal {
   }
 }
 </style>
