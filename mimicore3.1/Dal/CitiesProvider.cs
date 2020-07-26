@@ -8,13 +8,13 @@ namespace mimicore3._1.Dal
 {
     public class CitiesProvider
     {
-        public static List<City> cities { get; private set; }
-        public static List<Province> provinces { get; private set; }
+        public static List<City> Cities { get; private set; }
+        public static List<Province> Provinces { get; private set; }
 
         static CitiesProvider()
         {
-            cities = GenerateCities();
-            provinces = GenerateProvinces();
+            Cities = GenerateCities();
+            Provinces = GenerateProvinces();
         }
 
         private static List<City> GenerateCities()
@@ -140,7 +140,19 @@ namespace mimicore3._1.Dal
             provinces.Add(new Province
             {
                 Id = 4,
-                Name = "British Columbia"
+                Name = "British Columbia you are so so far far far far away away away"
+            });
+
+            provinces.Add(new Province
+            {
+                Id = 5,
+                Name = "Manitoba"
+            });
+
+            provinces.Add(new Province
+            {
+                Id = 6,
+                Name = "New Brunswick"
             });
 
             return provinces;

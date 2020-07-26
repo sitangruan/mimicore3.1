@@ -8,11 +8,11 @@ namespace mimicore3._1.Dal
 {
     public static class DepartmentsProvider
     {
-        public static List<Department> departments { get; private set; }
+        public static List<Department> Departments { get; private set; }
 
         static DepartmentsProvider()
         {
-            departments = GenerateDepartments();
+            Departments = GenerateDepartments();
         }
 
         private static List<Department> GenerateDepartments()

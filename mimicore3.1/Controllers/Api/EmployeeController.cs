@@ -20,9 +20,9 @@ namespace mimicore3._1.Controllers.Api
         public List<EmployeeView> GetEmployees()
         {
             var emps = EmployeesProvider.GetEmployees();
-            var cities = CitiesProvider.cities;
-            var provinces = CitiesProvider.provinces;
-            var departments = DepartmentsProvider.departments;
+            var cities = CitiesProvider.Cities;
+            var provinces = CitiesProvider.Provinces;
+            var departments = DepartmentsProvider.Departments;
 
             var views = from emp in emps
                         join city in cities on emp.CityId equals city.Id

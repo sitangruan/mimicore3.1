@@ -7,30 +7,30 @@ namespace mimicore3._1.Dal
 {
     public static class EmployeesProvider
     {
-        public static List<Employee> employees { get; private set; }
+        public static List<Employee> Employees { get; private set; }
 
         static EmployeesProvider()
         {
-            employees = GenerateInitialEmployees();
+            Employees = GenerateInitialEmployees();
         }
 
         public static List<Employee> GetEmployees()
         {
-            return employees;
+            return Employees;
         }
 
         public static void RemoveEmployee(int Id)
         {
-            if (employees.Any(emp => emp.Id == Id))
+            if (Employees.Any(emp => emp.Id == Id))
             {
-                employees.Remove(employees.Find(emp => emp.Id == Id));
+                Employees.Remove(Employees.Find(emp => emp.Id == Id));
             }
         }
 
         public static void AddOrUpdateEmployee(Employee emp)
         {
             RemoveEmployee(emp.Id);
-            employees.Add(emp);
+            Employees.Add(emp);
         }
 
         private static List<Employee> GenerateInitialEmployees()

@@ -55,18 +55,19 @@ export default {
 .inputContainer {
   display: flex;
   box-sizing: border-box;
-  border: 1px solid #c7c7c7;
+  border: 1px solid #979797;
   border-radius: 2px;
   position: relative;
-  min-height: 28px;
-  min-width: 300px;
+  height: 32px;
+  padding: 0;
+  min-width: 120px;
   input {
     flex: 1;
     border: 0;
     width: 100%;
-    min-height: 28px;
     height: 100%;
     font-family: Oswald-Regular;
+    font-size: 16px;
   }
   label {
     position: absolute;

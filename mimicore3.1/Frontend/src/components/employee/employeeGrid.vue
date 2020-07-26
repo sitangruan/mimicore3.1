@@ -9,7 +9,7 @@
         <div class="searchContainer">
           <div class="valueContainer">
             <input type="text" class="value" v-model="searchText" @keypress.enter="doSearch()" />
-            <div class="cleanIcon" title="Clean" @click="clearSearch"></div>
+            <div class="cleanIcon" title="Clean" @click="clearSearch()"></div>
           </div>
           <div class="searchIcon" title="Search" @click="doSearch()"></div>
         </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import EmployeeCardView from './employeeCardView';
 import EmployeeListView from './employeeListView';
 
@@ -44,6 +44,9 @@ export default {
       currentViewMode: 'List',
       searchText: '',
     };
+  },
+  computed: {
+    ...mapGetters('employee', ['filterValue']),
   },
   methods: {
     ...mapActions('employee', ['navigateToCreateEditPage', 'setFilterValue']),
@@ -61,6 +64,9 @@ export default {
   },
   created() {
     this.$store.dispatch('employee/getEmployees');
+  },
+  mounted() {
+    this.searchText = this.filterValue;
   },
 };
 </script>
@@ -103,12 +109,19 @@ export default {
         .valueContainer {
           display: flex;
           align-items: center;
+          height: 100%;
           .value {
-            border-width: 0px 0px 1px 0px;
-            width: 180px;
-            height: 20px;
-            margin-left: 10px;
+            width: 200px;
+            height: 100%;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            padding-left: 5px;
             font-family: Oswald-Regular;
+            font-size: 16px;
+            &:focus {
+              outline: none !important;
+            }
           }
           .cleanIcon {
             background: url('../../assets/images/clean.png') no-repeat center;

@@ -12,6 +12,7 @@ const urls = {
   getCurrentUser: '/Home/GetUser',
   getEmployees: '/Employee/GetEmployees',
   deleteEmployee: '/Employee/DeleteEmployee',
+  getProvinceCities: '/Common/GetProvinceCities',
 };
 
 function callbackWrapper(data, originalCallBack) {
@@ -56,6 +57,16 @@ export default {
   deleteEmployee(id, callback, errorHandler) {
     axios
       .delete(`${urls.deleteEmployee}/${id}`)
+      .then(({ data }) => {
+        callbackWrapper(data, callback);
+      })
+      .catch(error => {
+        errorHandlerWrapper(error, errorHandler);
+      });
+  },
+  getProvinceCities(callback, errorHandler) {
+    axios
+      .get(urls.getProvinceCities)
       .then(({ data }) => {
         callbackWrapper(data, callback);
       })
