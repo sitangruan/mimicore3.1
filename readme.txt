@@ -4,12 +4,12 @@ In this application it is using Vue.js as the front end framework to build a SPA
 
 The backend is not the major point of this project, it behaves more like a simple REST API. There is not database usage either, I hardcode some data from C#.
 
-In the begining, I did not expect it becomes so big (fine it may looks simple on UI). However as I was developing it, more and more ideas come to me and I cannot reject to implement them. It is also in such a procedure I have deeper understanding on the Vue design.
+In the begining, I did not expect it becomes so big (fine it may looks simple on UI). However as I am developing it, more and more ideas come to me and I cannot reject to implement them. It is also in such a procedure I have deeper learning and understanding on the Vue design.
 
 Please be aware, this is a SPA app, so the view files under Views folder are very simple (just a simple HTML page), and it will be updated automatically when the front end source codes are compiled. DO NOT write any content into them. Right now I have exclude those files in the .gitignore, and only keep the empty folders.
 
 During the development, I try to demo these pratices of Vue.js:
-1. Component creation and usage (I did a two level supported dropdown list, a lot of fun!)
+1. Component creation and usage (I did a two-levels supported dropdown list, a lot of fun!)
 2. Slot
 3. Directive
 4. Third party Vue component
