@@ -34,6 +34,20 @@
         :selectedOptionValue="singleLevelProvinceId"
         @select="onSelectProvince"
       ></cool-dropdown>
+      <br />
+      <cool-dropdown
+        class="cityDropdown"
+        :options="provinceCities"
+        optionValueField="id"
+        optionTextField="name"
+        subOptionField="cities"
+        subOptionValueField="id"
+        subOptionTextField="name"
+        :hasTwoLevels="true"
+        :disabled="true"
+        selectedSubOptionValue="7"
+        @select="onSelectCity"
+      ></cool-dropdown>
     </div>
   </div>
 </template>

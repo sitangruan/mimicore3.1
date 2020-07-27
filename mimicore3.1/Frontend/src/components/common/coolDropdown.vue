@@ -1,6 +1,6 @@
 <template>
   <div class="coolDropdownContainer">
-    <div class="selectedResult" @click="toggleExpand()">
+    <div class="selectedResult" @click="toggleExpand()" :class="{ isDisabled: disabled }">
       <div class="text" :class="{ tip: !hasSelectedValue }">
         <span class="ellipsisText">{{ selectedText }}</span>
       </div>
@@ -64,6 +64,10 @@ export default {
   },
   props: {
     options: Array,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     optionValueField: {
       type: String,
       default: '',
@@ -332,6 +336,11 @@ export default {
     align-items: center;
     display: flex;
     cursor: pointer;
+    &.isDisabled {
+      color: #c0c0c0;
+      cursor: auto;
+      pointer-events: none;
+    }
     .text {
       display: flex;
       align-items: center;
