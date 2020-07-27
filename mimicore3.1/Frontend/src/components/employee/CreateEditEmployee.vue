@@ -7,11 +7,11 @@
       </div>
     </div>
     <div class="content">
-      <input type="button" @click="clickMe" value="testme" />
+      <input type="button" @click="clickMe" value="Test Me" />
       <br /><br />
-      <cool-input :inputValue.sync="firstName" class="normalText" inputName="First Name"></cool-input>
+      <cool-input :inputValue.sync="firstName" class="firstNameInput" inputName="First Name"></cool-input>
       <br />
-      <cool-input :inputValue.sync="lastName" class="normalText" inputName="Last Name"></cool-input>
+      <cool-input :inputValue.sync="lastName" class="lastNameInput" inputName="Last Name"></cool-input>
       <br />
       <cool-dropdown
         class="cityDropdown"
@@ -21,8 +21,18 @@
         subOptionField="cities"
         subOptionValueField="id"
         subOptionTextField="name"
+        :hasTwoLevels="true"
         :selectedSubOptionValue="cityId"
         @select="onSelectCity"
+      ></cool-dropdown>
+      <br />
+      <cool-dropdown
+        class="provinceDropdown"
+        :options="provinceCities"
+        optionValueField="id"
+        optionTextField="name"
+        :selectedOptionValue="singleLevelProvinceId"
+        @select="onSelectProvince"
       ></cool-dropdown>
     </div>
   </div>
@@ -41,6 +51,7 @@ export default {
       lastName: '',
       cityId: '',
       provinceId: '',
+      singleLevelProvinceId: '',
     };
   },
   computed: {
@@ -53,15 +64,24 @@ export default {
   methods: {
     ...mapActions('employee', ['navigateToGridPage']),
     ...mapActions('common', ['loadProvinceCities']),
-    onSelectCity(cityId, provinceId) {
-      this.cityId = cityId;
+    onSelectCity(provinceId, cityId) {
       this.provinceId = provinceId;
+      this.cityId = cityId;
+    },
+    onSelectProvince(provinceId) {
+      this.singleLevelProvinceId = provinceId;
     },
     clickMe() {
       console.log('First Name');
       console.log(this.firstName);
+      console.log('Last Name');
+      console.log(this.lastName);
       console.log('City Id');
       console.log(this.cityId);
+      console.log('provinceId Id');
+      console.log(this.provinceId);
+      console.log('singleLevelProvinceId Id');
+      console.log(this.singleLevelProvinceId);
     },
   },
   created() {
@@ -94,11 +114,21 @@ export default {
     }
   }
   .content {
-    .normalText {
-      width: 360pz;
+    input[type='button'] {
+      font-family: Oswald-Regular;
+      font-size: 16px;
+    }
+    .firstNameInput {
+      width: 300px;
+    }
+    .lastNameInput {
+      width: 400px;
     }
     .cityDropdown {
-      width: 360px;
+      width: 300px;
+    }
+    .provinceDropdown {
+      width: 400px;
     }
   }
 }

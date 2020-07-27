@@ -80,7 +80,7 @@ namespace mimicore3._1.Dal
             cities.Add(new City
             {
                 Id = 9,
-                Name = "Edmonton",
+                Name = "Edmonton you know I just want to make your name long long long so I will be happy!",
                 ProvinceId = 3
             });
 
@@ -140,7 +140,7 @@ namespace mimicore3._1.Dal
             provinces.Add(new Province
             {
                 Id = 4,
-                Name = "British Columbia you are so so far far far far away away away"
+                Name = "British Columbia you are so so far far far far away away away how can I imagine"
             });
 
             provinces.Add(new Province

@@ -1,7 +1,9 @@
 <template>
   <div class="coolDropdownContainer">
     <div class="selectedResult" @click="toggleExpand()">
-      <div class="text" :class="{ tip: !hasSelectedValue }">{{ selectedText }}</div>
+      <div class="text" :class="{ tip: !hasSelectedValue }">
+        <span class="ellipsisText">{{ selectedText }}</span>
+      </div>
       <div class="arrowDown" :class="isExpanded ? 'up' : ''"></div>
     </div>
     <transition name="fade">
@@ -18,50 +20,28 @@
             class="dropdownItem"
             v-for="option in options"
             :key="option[optionValueField]"
-            v-if="
-              !requireSearch ||
-                option[optionTextField]
-                  .toString()
-                  .toLowerCase()
-                  .indexOf(searchText) > -1 ||
-                option[subOptionField].some(
-                  so =>
-                    so[subOptionTextField]
-                      .toString()
-                      .toLowerCase()
-                      .indexOf(searchText) > -1,
-                )
-            "
+            v-if="isOptionVisible(option)"
           >
             <div
               class="optionContainer"
-              @click="toggleSubOptions(option)"
-              :class="isOptionExpandable(option) ? '' : 'isDisabled'"
+              @click="onClickOption(option)"
+              :class="[isOptionDisabled(option) ? 'isDisabled' : '', checkIsOptionSelected(option) ? 'selected' : '']"
             >
               <div
+                v-if="hasTwoLevels"
                 class="icon arrowDown"
-                :class="[isSubOptionsExpanded(option) ? '' : 'right', isOptionExpandable(option) ? '' : 'isDisabled']"
+                :class="[isSubOptionsExpanded(option) ? '' : 'right', isOptionDisabled(option) ? 'isDisabled' : '']"
               ></div>
               <span class="ellipsisText">{{ option[optionTextField] }}</span>
             </div>
-            <div class="subOptionsBox" v-if="isSubOptionsExpanded(option)">
+            <div class="subOptionsBox" v-if="hasTwoLevels && isSubOptionsExpanded(option)">
               <div
                 v-for="subOption in option[subOptionField]"
-                v-if="
-                  !requireSearch ||
-                    option[optionTextField]
-                      .toString()
-                      .toLowerCase()
-                      .indexOf(searchText) > -1 ||
-                    subOption[subOptionTextField]
-                      .toString()
-                      .toLowerCase()
-                      .indexOf(searchText) > -1
-                "
+                v-if="isSubOptionVisible(option, subOption)"
                 :key="subOption[subOptionValueField]"
                 class="subOptionContainer"
-                :class="{ selected: checkIsSubOptionSelected(subOption, option) }"
-                @click="selectItem(subOption, option)"
+                :class="{ selected: checkIsSubOptionSelected(option, subOption) }"
+                @click="selectSubOption(option, subOption)"
               >
                 <span class="ellipsisText">{{ subOption[subOptionTextField] }}</span>
               </div>
@@ -84,11 +64,30 @@ export default {
   },
   props: {
     options: Array,
-    optionValueField: String,
-    optionTextField: String,
-    subOptionField: String,
-    subOptionValueField: String,
-    subOptionTextField: String,
+    optionValueField: {
+      type: String,
+      default: '',
+    },
+    optionTextField: {
+      type: String,
+      default: '',
+    },
+    subOptionField: {
+      type: String,
+      default: '',
+    },
+    subOptionValueField: {
+      type: String,
+      default: '',
+    },
+    subOptionTextField: {
+      type: String,
+      default: '',
+    },
+    hasTwoLevels: {
+      type: Boolean,
+      default: false,
+    },
     selectedOptionValue: {
       type: String,
       default: '',
@@ -118,15 +117,25 @@ export default {
       return this.selectedValueSet.optionValue !== '' || this.selectedValueSet.subOptionValue !== '';
     },
     selectedText() {
-      const selectedValue = this.selectedValueSet.subOptionValue.toString();
-      if (selectedValue !== '') {
-        for (let i = 0; i < this.options.length; i += 1) {
-          const opt = this.options[i];
-          for (let j = 0; j < opt[this.subOptionField].length; j += 1) {
-            const subOpt = opt[this.subOptionField][j];
-            if (selectedValue === subOpt[this.subOptionValueField].toString()) {
-              return subOpt[this.subOptionTextField];
+      if (this.hasTwoLevels) {
+        const selectedSubOptionValue = this.selectedValueSet.subOptionValue.toString();
+        if (selectedSubOptionValue !== '') {
+          for (let i = 0; i < this.options.length; i += 1) {
+            const opt = this.options[i];
+            for (let j = 0; j < opt[this.subOptionField].length; j += 1) {
+              const subOpt = opt[this.subOptionField][j];
+              if (selectedSubOptionValue === subOpt[this.subOptionValueField].toString()) {
+                return subOpt[this.subOptionTextField];
+              }
             }
+          }
+        }
+      } else {
+        const selectedOptionValue = this.selectedValueSet.optionValue.toString();
+        if (selectedOptionValue !== '') {
+          const found = this.options.find(o => o[this.optionValueField].toString() === selectedOptionValue);
+          if (found) {
+            return found[this.optionTextField];
           }
         }
       }
@@ -149,8 +158,21 @@ export default {
         this.expandClicked = false;
       }
     },
+    onClickOption(opt) {
+      if (this.hasTwoLevels) {
+        this.toggleSubOptions(opt);
+      } else {
+        this.selectedValueSet = {
+          optionValue: opt[this.optionValueField].toString(),
+          subOptionValue: '',
+        };
+
+        this.$emit('select', opt[this.optionValueField].toString());
+        this.isExpanded = false;
+      }
+    },
     toggleSubOptions(opt) {
-      if (this.isOptionExpandable(opt)) {
+      if (!this.isOptionDisabled(opt)) {
         if (!this.isSubOptionsExpanded(opt)) {
           this.expandedOptionIds.push(opt[this.optionValueField]);
         } else {
@@ -159,26 +181,75 @@ export default {
         }
       }
     },
+    checkNotNullEmptyString(obj) {
+      return typeof obj !== 'undefined' && obj !== null && obj !== '' && obj.toString() !== '';
+    },
+    checkNotNullEmptyArray(obj) {
+      return typeof obj !== 'undefined' && obj !== null && Array.isArray(obj);
+    },
+    isOptionVisible(opt) {
+      const isOptionMatchedSearch =
+        this.checkNotNullEmptyString(this.optionTextField) &&
+        this.checkNotNullEmptyString(opt[this.optionTextField]) &&
+        opt[this.optionTextField]
+          .toString()
+          .toLowerCase()
+          .indexOf(this.searchText) > -1;
+
+      const isSubOptionMatchedSearch =
+        this.hasTwoLevels &&
+        this.checkNotNullEmptyString(this.subOptionField) &&
+        this.checkNotNullEmptyArray(opt[this.subOptionField]) &&
+        opt[this.subOptionField].some(
+          so =>
+            so[this.subOptionTextField]
+              .toString()
+              .toLowerCase()
+              .indexOf(this.searchText) > -1,
+        );
+
+      const isVisible = !this.requireSearch || isOptionMatchedSearch || isSubOptionMatchedSearch;
+      return isVisible;
+    },
+    isSubOptionVisible(opt, subOpt) {
+      const isOptionMatchedSearch =
+        this.checkNotNullEmptyString(this.optionTextField) &&
+        this.checkNotNullEmptyString(opt[this.optionTextField]) &&
+        opt[this.optionTextField]
+          .toString()
+          .toLowerCase()
+          .indexOf(this.searchText) > -1;
+
+      const isSubOptionMatchedSearch =
+        this.hasTwoLevels &&
+        this.checkNotNullEmptyString(this.subOptionField) &&
+        this.checkNotNullEmptyArray(opt[this.subOptionField]) &&
+        subOpt[this.subOptionTextField]
+          .toString()
+          .toLowerCase()
+          .indexOf(this.searchText) > -1;
+
+      const isVisible = !this.requireSearch || isOptionMatchedSearch || isSubOptionMatchedSearch;
+      return isVisible;
+    },
     doSearch() {},
     clearSearch() {
       this.searchText = '';
       this.doSearch();
     },
-    isOptionExpandable(opt) {
+    isOptionDisabled(opt) {
       const hasSubOptions =
-        this.subOptionField !== null &&
-        this.subOptionField !== '' &&
-        Array.isArray(opt[this.subOptionField]) &&
+        this.checkNotNullEmptyString(this.subOptionField) &&
+        this.checkNotNullEmptyArray(opt[this.subOptionField]) &&
         opt[this.subOptionField].length > 0;
 
-      return hasSubOptions;
+      return this.hasTwoLevels && !hasSubOptions;
     },
     isSubOptionsExpanded(opt) {
       const isExpanded =
         opt &&
-        typeof this.optionValueField !== 'undefined' &&
-        this.optionValueField !== '' &&
-        typeof opt[this.optionValueField] !== 'undefined' &&
+        this.checkNotNullEmptyString(this.optionValueField) &&
+        this.checkNotNullEmptyString(opt[this.optionValueField]) &&
         this.expandedOptionIds.some(id => id === opt[this.optionValueField]);
 
       return isExpanded;
@@ -189,27 +260,33 @@ export default {
         subOptionValue: '',
       };
     },
-    checkIsSubOptionSelected(subOpt, opt) {
+    checkIsOptionSelected(opt) {
+      const isSelected =
+        !this.hasTwoLevels && this.selectedValueSet.optionValue.toString() === opt[this.optionValueField].toString();
+
+      return isSelected;
+    },
+    checkIsSubOptionSelected(opt, subOpt) {
       const isSelected =
         this.selectedValueSet.optionValue.toString() === opt[this.optionValueField].toString() &&
         this.selectedValueSet.subOptionValue.toString() === subOpt[this.subOptionValueField].toString();
 
       return isSelected;
     },
-    selectItem(subOpt, opt) {
+    selectSubOption(opt, subOpt) {
       this.selectedValueSet = {
-        optionValue: opt[this.optionValueField],
-        subOptionValue: subOpt[this.subOptionValueField],
+        optionValue: opt[this.optionValueField].toString(),
+        subOptionValue: subOpt[this.subOptionValueField].toString(),
       };
 
-      this.$emit('select', subOpt[this.subOptionValueField].toString(), opt[this.optionValueField].toString());
+      this.$emit('select', opt[this.optionValueField].toString(), subOpt[this.subOptionValueField].toString());
       this.isExpanded = false;
     },
   },
   mounted() {
     this.selectedValueSet = {
-      optionValue: this.selectedOptionValue,
-      subOptionValue: this.selectedSubOptionValue,
+      optionValue: this.selectedOptionValue.toString(),
+      subOptionValue: this.selectedSubOptionValue.toString(),
     };
   },
 };
@@ -238,6 +315,12 @@ export default {
       opacity: 0.5;
     }
   }
+  .ellipsisText {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   .selectedResult {
     border: 1px solid #979797;
     border-radius: 2px;
@@ -249,11 +332,20 @@ export default {
     align-items: center;
     display: flex;
     cursor: pointer;
-    padding: 0 5px;
     .text {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+      padding-left: 5px;
+      overflow: hidden;
       &.tip {
         color: #888888;
       }
+    }
+    .text + .arrowDown {
+      flex-shrink: 0;
+      flex-grow: 0;
     }
   }
   .fade-enter-active,
@@ -270,6 +362,8 @@ export default {
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
+    z-index: 1;
+    background-color: #ffffff;
     border-radius: 2px;
     box-shadow: 0 1px 8px 0 rgba(60, 73, 112, 0.25);
     transition: 0.3s all ease-in-out;
@@ -335,14 +429,11 @@ export default {
             cursor: pointer;
             flex-shrink: 0;
           }
-          .ellipsisText {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
           &:hover {
             background: #cccccc;
+          }
+          &.selected {
+            background-color: #dddddd;
           }
         }
         .subOptionsBox {
@@ -352,12 +443,6 @@ export default {
           .subOptionContainer {
             display: flex;
             align-items: center;
-            .ellipsisText {
-              display: inline-block;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-            }
             &:hover {
               background: #cccccc;
             }

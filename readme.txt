@@ -19,6 +19,9 @@ During the development, I try to demo these pratices of Vue.js:
 8. Vuex to store the common state info like user's profile and and many other modules.
 9. Webpack for front end codes compiling and packaging.
 
+There are also some small tricks I like to share:
+1. A css class "ellipsisText" to help automatically truncate long strings to fit the width and show "..." at the end. Usually its parent div should also be defined "display: flex; overflow: hidden".
+
 To run the app
 1. First you need to compile the front end source codes. To do that,
   1) Install node.js in your computer.

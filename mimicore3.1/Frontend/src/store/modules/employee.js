@@ -24,7 +24,7 @@ const state = {
     {
       fieldName: 'cityName',
       className: 'colCityName',
-      title: 'CityName',
+      title: 'City Name (I make this column name very long for fun!)',
     },
     {
       fieldName: 'departmentName',

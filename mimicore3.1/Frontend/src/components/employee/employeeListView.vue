@@ -8,7 +8,9 @@
         :class="col.className"
         @click="doSorting(col.fieldName)"
       >
-        <div>{{ col.title }}</div>
+        <div class="text">
+          <span class="ellipsisText">{{ col.title }}</span>
+        </div>
         <div
           class="icon"
           :class="[col.fieldName === sortingField.name ? 'isSorted' : '', sortingField.asc ? '' : 'desc']"
@@ -21,7 +23,9 @@
     <div v-for="emp in sortedEmployees" :key="emp.id" class="row data">
       <div v-for="col in gridColumns" :key="col.fieldName" class="cell" :class="col.className">
         <div v-if="col.fieldName === 'createDate'">{{ emp[col.fieldName] | moment('YYYY-MM-DD') }}</div>
-        <div v-else>{{ emp[col.fieldName] }}</div>
+        <div v-else class="text">
+          <span class="ellipsisText">{{ emp[col.fieldName] }}</span>
+        </div>
       </div>
       <div class="cell colOperation">
         <div class="icon edit" title="Edit"></div>
@@ -53,6 +57,12 @@ export default {
 .listView {
   display: flex;
   flex-direction: column;
+  .ellipsisText {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   .row {
     box-shadow: 0 1px 6px 0 rgba(60, 73, 112, 0.25);
     display: flex;
@@ -110,6 +120,10 @@ export default {
             }
           }
         }
+        .text {
+          display: flex;
+          overflow: hidden;
+        }
       }
     }
     &.header {
@@ -144,6 +158,10 @@ export default {
         &.colOperation {
           width: 120px;
           flex-grow: 0;
+        }
+        .text {
+          display: flex;
+          overflow: hidden;
         }
         .icon {
           width: 8px;
