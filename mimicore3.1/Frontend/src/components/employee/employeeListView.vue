@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="cell colOperation">
-        <div class="icon edit" title="Edit"></div>
+        <div class="icon edit" title="Edit" @click="navigateToCreateEditPage(emp[idField])"></div>
         <div class="icon delete" title="Delete" @click="deleteEmployee(emp[idField])"></div>
       </div>
     </div>
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     ...mapMutations('employee', ['setSortingColumn']),
-    ...mapActions('employee', ['deleteEmployee']),
+    ...mapActions('employee', ['deleteEmployee', 'navigateToCreateEditPage']),
     doSorting(fieldName) {
       this.setSortingColumn(fieldName);
     },

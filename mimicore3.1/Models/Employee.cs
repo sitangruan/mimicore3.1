@@ -17,5 +17,7 @@ namespace mimicore3._1.Models
         public int DepartmentId { get; set; }
 
         public DateTime CreateDate { get; set; }
+
+        public DateTime UpdateDate { get; set; }
     }
 }

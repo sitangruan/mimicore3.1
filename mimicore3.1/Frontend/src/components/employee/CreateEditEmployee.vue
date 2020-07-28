@@ -3,51 +3,51 @@
     <div class="functionRow">
       <div class="buttonContainer" @click="navigateToGridPage()">
         <div class="icon"></div>
-        <div>Back to Employees</div>
+        <div>{{ isEditMode ? 'Edit Employee' : 'Create New Employees' }}</div>
       </div>
     </div>
     <div class="content">
-      <input type="button" @click="clickMe" value="Test Me" />
-      <br /><br />
-      <cool-input :inputValue.sync="firstName" class="firstNameInput" inputName="First Name"></cool-input>
-      <br />
-      <cool-input :inputValue.sync="lastName" class="lastNameInput" inputName="Last Name"></cool-input>
-      <br />
-      <cool-dropdown
-        class="cityDropdown"
-        :options="provinceCities"
-        optionValueField="id"
-        optionTextField="name"
-        subOptionField="cities"
-        subOptionValueField="id"
-        subOptionTextField="name"
-        :hasTwoLevels="true"
-        :selectedSubOptionValue="cityId"
-        @select="onSelectCity"
-      ></cool-dropdown>
-      <br />
-      <cool-dropdown
-        class="provinceDropdown"
-        :options="provinceCities"
-        optionValueField="id"
-        optionTextField="name"
-        :selectedOptionValue="singleLevelProvinceId"
-        @select="onSelectProvince"
-      ></cool-dropdown>
-      <br />
-      <cool-dropdown
-        class="cityDropdown"
-        :options="provinceCities"
-        optionValueField="id"
-        optionTextField="name"
-        subOptionField="cities"
-        subOptionValueField="id"
-        subOptionTextField="name"
-        :hasTwoLevels="true"
-        :disabled="true"
-        selectedSubOptionValue="7"
-        @select="onSelectCity"
-      ></cool-dropdown>
+      <div class="inputRow nameRow">
+        <cool-input :inputValue.sync="firstName" class="nameInput" inputName="First Name"></cool-input>
+        <cool-input :inputValue.sync="lastName" class="nameInput" inputName="Last Name"></cool-input>
+      </div>
+      <div class="inputRow addressRow">
+        <cool-input :inputValue.sync="address" class="addressInput" inputName="Address"></cool-input>
+      </div>
+      <div class="dropdownRow">
+        <div class="dropdownCell">
+          <div class="label">City</div>
+          <cool-dropdown
+            class="cityDropdown"
+            :options="provinceCities"
+            optionValueField="id"
+            optionTextField="name"
+            subOptionField="cities"
+            subOptionValueField="id"
+            subOptionTextField="name"
+            :hasTwoLevels="true"
+            :selectedSubOptionValue="cityId"
+            @select="onSelectCity"
+          ></cool-dropdown>
+        </div>
+        <div class="dropdownCell">
+          <div class="label">Department</div>
+          <cool-dropdown
+            class="departmentDropdown"
+            :options="departments"
+            optionValueField="id"
+            optionTextField="name"
+            :selectedOptionValue="departmentId"
+            @select="onSelectDepartment"
+          ></cool-dropdown>
+        </div>
+      </div>
+      <div class="buttonRow">
+        <div class="buttonsContainer">
+          <input type="button" @click="Save" value="Save" />
+          <input type="button" @click="Cancel" value="Cancel" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -63,43 +63,53 @@ export default {
     return {
       firstName: '',
       lastName: '',
+      address: '',
       cityId: '',
       provinceId: '',
-      singleLevelProvinceId: '',
+      departmentId: '',
     };
   },
   computed: {
-    ...mapGetters('common', ['provinceCities']),
+    ...mapGetters('common', ['provinceCities', 'departments']),
+    ...mapGetters('employee', ['currentEmployeeId', 'currentEmployee', 'isEditMode']),
   },
   components: {
     CoolInput,
     CoolDropdown,
   },
   methods: {
-    ...mapActions('employee', ['navigateToGridPage']),
-    ...mapActions('common', ['loadProvinceCities']),
+    ...mapActions('employee', ['navigateToGridPage', 'createUpdateEmployee']),
+    ...mapActions('common', ['loadProvinceCities', 'loadDepartments']),
     onSelectCity(provinceId, cityId) {
       this.provinceId = provinceId;
       this.cityId = cityId;
     },
-    onSelectProvince(provinceId) {
-      this.singleLevelProvinceId = provinceId;
+    onSelectDepartment(departmentId) {
+      this.departmentId = departmentId;
     },
-    clickMe() {
-      console.log('First Name');
-      console.log(this.firstName);
-      console.log('Last Name');
-      console.log(this.lastName);
-      console.log('City Id');
-      console.log(this.cityId);
-      console.log('provinceId Id');
-      console.log(this.provinceId);
-      console.log('singleLevelProvinceId Id');
-      console.log(this.singleLevelProvinceId);
+    Save() {
+      const emp = {
+        FirstName: this.firstName,
+        LastName: this.lastName,
+        Address: this.address,
+        CityId: this.cityId,
+        DepartmentId: this.departmentId,
+      };
+
+      this.createUpdateEmployee(emp);
+    },
+    Cancel() {
+      this.navigateToGridPage();
     },
   },
   created() {
     this.loadProvinceCities();
+    this.loadDepartments();
+    this.firstName = this.currentEmployee.firstName;
+    this.lastName = this.currentEmployee.lastName;
+    this.address = this.currentEmployee.address;
+    this.cityId = this.currentEmployee.cityId.toString();
+    this.departmentId = this.currentEmployee.departmentId.toString();
   },
 };
 </script>
@@ -132,17 +142,59 @@ export default {
       font-family: Oswald-Regular;
       font-size: 16px;
     }
-    .firstNameInput {
-      width: 300px;
+    display: flex;
+    flex-direction: column;
+    width: 610px;
+    .inputRow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      width: 100%;
+      &.nameRow {
+        justify-content: space-between;
+        .nameInput {
+          width: 300px;
+        }
+      }
+      &.addressRow {
+        .addressInput {
+          width: 100%;
+        }
+      }
     }
-    .lastNameInput {
-      width: 400px;
+    .dropdownRow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      justify-content: space-between;
+      width: 100%;
+      .dropdownCell {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        .label {
+          line-height: 20px;
+          margin-bottom: 5px;
+        }
+        .cityDropdown {
+        }
+        .departmentDropdown {
+        }
+      }
     }
-    .cityDropdown {
-      width: 300px;
-    }
-    .provinceDropdown {
-      width: 400px;
+    .buttonRow {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .buttonsContainer {
+        input[type='button'] {
+          width: 80px;
+        }
+        input[type='button']:first-child {
+          margin-right: 40px;
+        }
+      }
     }
   }
 }

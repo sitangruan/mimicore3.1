@@ -12,7 +12,9 @@ const urls = {
   getCurrentUser: '/Home/GetUser',
   getEmployees: '/Employee/GetEmployees',
   deleteEmployee: '/Employee/DeleteEmployee',
+  CreateUpdateEmployee: '/Employee/CreateUpdateEmployee',
   getProvinceCities: '/Common/GetProvinceCities',
+  getDepartments: '/Common/GetDepartments',
 };
 
 function callbackWrapper(data, originalCallBack) {
@@ -54,6 +56,16 @@ export default {
         errorHandlerWrapper(error, errorHandler);
       });
   },
+  createUpdateEmployee(emp, callback, errorHandler) {
+    axios
+      .post(urls.CreateUpdateEmployee, emp)
+      .then(({ data }) => {
+        callbackWrapper(data, callback);
+      })
+      .catch(error => {
+        errorHandlerWrapper(error, errorHandler);
+      });
+  },
   deleteEmployee(id, callback, errorHandler) {
     axios
       .delete(`${urls.deleteEmployee}/${id}`)
@@ -67,6 +79,16 @@ export default {
   getProvinceCities(callback, errorHandler) {
     axios
       .get(urls.getProvinceCities)
+      .then(({ data }) => {
+        callbackWrapper(data, callback);
+      })
+      .catch(error => {
+        errorHandlerWrapper(error, errorHandler);
+      });
+  },
+  getDepartments(callback, errorHandler) {
+    axios
+      .get(urls.getDepartments)
       .then(({ data }) => {
         callbackWrapper(data, callback);
       })

@@ -1,6 +1,7 @@
 import apiCaller from '../../api/apiCaller';
 
 const state = {
+  isEditMode: false,
   employees: [],
   currentEmployeeId: 0,
   activeComponentIndex: 0,
@@ -71,6 +72,7 @@ function compareEmployee(stateParam) {
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const getters = {
+  isEditMode: state => state.isEditMode,
   employees: state => state.employees,
   sortedEmployees: state => {
     const myFilter = state.filterValue.toLowerCase();
@@ -86,7 +88,23 @@ const getters = {
     return filteredEmployees.sort(compareEmployee(state));
   },
   currentEmployeeId: state => state.currentEmployeeId,
-  currentEmployee: state => state.employees.find(emp => emp.id === state.currentEmployeeId),
+  currentEmployee: state => {
+    if (state.currentEmployeeId > 0) {
+      const found = state.employees.find(emp => emp.id === state.currentEmployeeId);
+      if (found) {
+        return found;
+      }
+    }
+
+    return {
+      id: state.currentEmployeeId,
+      firstName: '',
+      lastName: '',
+      address: '',
+      cityId: '',
+      departmentId: '',
+    };
+  },
   activeComponentIndex: state => state.activeComponentIndex,
   sortingField: state => state.sortingField,
   filterValue: state => state.filterValue,
@@ -116,10 +134,28 @@ const actions = {
       },
     );
   },
+  createUpdateEmployee({ dispatch }, emp) {
+    apiCaller.createUpdateEmployee(
+      {
+        Id: state.currentEmployeeId,
+        ...emp,
+      },
+      () => {
+        dispatch('getEmployees');
+        dispatch('navigateToGridPage');
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  },
   navigateToGridPage({ commit }) {
+    commit('setCurrentEmployeeId', 0);
     commit('setActiveComponentIndex', 0);
   },
-  navigateToCreateEditPage({ commit }) {
+  navigateToCreateEditPage({ commit }, id) {
+    commit('setIsEditMode', id > 0);
+    commit('setCurrentEmployeeId', id);
     commit('setActiveComponentIndex', 1);
   },
 };
@@ -127,8 +163,6 @@ const actions = {
 const mutations = {
   setEmployees(state, payload) {
     state.employees = payload;
-    console.log('Inside store. The employees are');
-    console.log(state.employees);
   },
   setActiveComponentIndex(state, payload) {
     state.activeComponentIndex = payload;
@@ -145,6 +179,12 @@ const mutations = {
   },
   setFilterValue(state, payload) {
     state.filterValue = payload;
+  },
+  setCurrentEmployeeId(state, payload) {
+    state.currentEmployeeId = payload;
+  },
+  setIsEditMode(state, payload) {
+    state.isEditMode = payload;
   },
 };
 

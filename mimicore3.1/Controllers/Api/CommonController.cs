@@ -33,5 +33,20 @@ namespace mimicore3._1.Controllers.Api
 
             return pcArray.ToList();
         }
+
+        [HttpGet]
+        public List<DepartmentView> GetDepartments()
+        {
+            var dpts = DepartmentsProvider.Departments;
+
+            var dptArray = from dpt in dpts
+                           select (new DepartmentView
+                           {
+                              Id = dpt.Id,
+                              Name = dpt.Name
+                          });
+
+            return dptArray.ToList();
+        }
     }
 }

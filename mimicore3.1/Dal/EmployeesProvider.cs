@@ -27,16 +27,41 @@ namespace mimicore3._1.Dal
             }
         }
 
-        public static void AddOrUpdateEmployee(Employee emp)
+        public static void AddOrUpdateEmployee(int Id, string FirstName, string LastName, string Address, int CityId, int DepartmentId)
         {
-            RemoveEmployee(emp.Id);
-            Employees.Add(emp);
+            if (Id <= 0 || !Employees.Any(emp => emp.Id == Id))
+            {
+                var newEmpId = Employees.Max(emp => emp.Id) + 1;
+                Employees.Add(new Employee
+                {
+                    Id = newEmpId,
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    Address = Address,
+                    CityId = CityId,
+                    DepartmentId = DepartmentId,
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                });
+            }
+            else
+            {
+                var found = Employees.Find(emp => emp.Id == Id);
+                found.Id = Id;
+                found.FirstName = FirstName;
+                found.LastName = LastName;
+                found.Address = Address;
+                found.CityId = CityId;
+                found.DepartmentId = DepartmentId;
+                found.UpdateDate = DateTime.Now;
+            }
         }
 
         private static List<Employee> GenerateInitialEmployees()
         {
             var empls = new List<Employee>();
 
+            var date1 = new DateTime(2015, 11, 30);
             empls.Add(new Employee
             {
                 Id = 1,
@@ -45,9 +70,11 @@ namespace mimicore3._1.Dal
                 CityId = 1,
                 Address = "1000 Rocky Mountain",
                 DepartmentId = 1,
-                CreateDate = new DateTime(2015, 11, 30)
+                CreateDate = date1,
+                UpdateDate = date1
             });
 
+            var date2 = new DateTime(2016, 7, 1);
             empls.Add(new Employee
             {
                 Id = 2,
@@ -56,9 +83,11 @@ namespace mimicore3._1.Dal
                 CityId = 11,
                 Address = "234 Calvin",
                 DepartmentId = 2,
-                CreateDate = new DateTime(2016, 7, 1)
+                CreateDate = date2,
+                UpdateDate = date2
             });
 
+            var date3 = new DateTime(2017, 10, 15);
             empls.Add(new Employee
             {
                 Id = 3,
@@ -67,9 +96,11 @@ namespace mimicore3._1.Dal
                 CityId = 6,
                 Address = "2200 Gordon",
                 DepartmentId = 3,
-                CreateDate = new DateTime(2017, 10, 15)
+                CreateDate = date3,
+                UpdateDate = date3
             });
 
+            var date4 = new DateTime(2018, 5, 25);
             empls.Add(new Employee
             {
                 Id = 4,
@@ -78,7 +109,8 @@ namespace mimicore3._1.Dal
                 CityId = 9,
                 Address = "999 Walls drive",
                 DepartmentId = 4,
-                CreateDate = new DateTime(2018, 5, 25)
+                CreateDate = date4,
+                UpdateDate = date4
             });
 
             return empls;

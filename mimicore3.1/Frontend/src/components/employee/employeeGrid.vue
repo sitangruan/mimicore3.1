@@ -1,7 +1,7 @@
 <template>
   <div class="employeesView">
     <div class="functionRow">
-      <div class="buttonContainer" @click="navigateToCreateEditPage()">
+      <div class="buttonContainer" @click="navigateToCreateEditPage(0)">
         <div class="icon"></div>
         <div>Create New Employee</div>
       </div>

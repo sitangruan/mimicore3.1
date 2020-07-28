@@ -40,7 +40,8 @@ namespace mimicore3._1.Controllers.Api
                             Address = emp.Address,
                             DepartmentId = emp.DepartmentId,
                             DepartmentName = dept.Name,
-                            CreateDate = emp.CreateDate
+                            CreateDate = emp.CreateDate,
+                            UpdateDate = emp.UpdateDate
                         };
 
             return views.ToList();
@@ -52,5 +53,29 @@ namespace mimicore3._1.Controllers.Api
             EmployeesProvider.RemoveEmployee(Id);
             return NoContent();
         }
+
+        [HttpPost]
+        public IActionResult CreateUpdateEmployee([FromBody]EmployeeModel Emp)
+        {
+            var cityId = Convert.ToInt32(Emp.CityId);
+            var departmentId = Convert.ToInt32(Emp.DepartmentId);
+            EmployeesProvider.AddOrUpdateEmployee(Emp.Id, Emp.FirstName, Emp.LastName, Emp.Address, cityId, departmentId);
+            return NoContent();
+        }
+    }
+
+    public class EmployeeModel
+    {
+        public int Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Address { get; set; }
+
+        public string CityId { get; set; }
+
+        public string DepartmentId { get; set; }
     }
 }
