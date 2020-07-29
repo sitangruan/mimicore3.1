@@ -29,6 +29,7 @@ To run the app
   3) For the first time running, type "npm install" to install all necessary modules.
   4) Type "npm run fix" and press enter. This step is not mandatory, but if you make some changes in the future, then you can do that to lint your front end codes.
   5) Type "npm run build" and press enter.
+  6) By the way, I use Visual Studio Code as the IDE for the front end coding, it is marvelous! I encourage you to use it as well.
 2. Then you can run the app in Visual Studio 2019 in debug mode.
 
 To login, you can enter any random text as the username, and simply copy it as the password, then you are in!
