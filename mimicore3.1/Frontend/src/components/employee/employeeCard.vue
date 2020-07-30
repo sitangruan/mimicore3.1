@@ -62,7 +62,8 @@ export default {
   box-shadow: 0 1px 6px 0 rgba(60, 73, 112, 0.25);
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 280px;
+  height: 160px;
   flex-shrink: 0;
   flex-grow: 0;
   padding: 5px;
@@ -112,7 +113,7 @@ export default {
     align-items: center;
     .label {
       font-family: Oswald-Bold;
-      width: 120px;
+      width: 100px;
       flex-shrink: 0;
       display: flex;
       justify-content: flex-end;
