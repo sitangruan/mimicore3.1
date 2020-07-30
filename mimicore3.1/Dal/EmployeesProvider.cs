@@ -113,6 +113,60 @@ namespace mimicore3._1.Dal
                 UpdateDate = date4
             });
 
+
+
+            var date5 = new DateTime(2016, 3, 22);
+            empls.Add(new Employee
+            {
+                Id = 5,
+                FirstName = "Tom",
+                LastName = "Hanks",
+                CityId = 2,
+                Address = "6677 Guy",
+                DepartmentId = 3,
+                CreateDate = date5,
+                UpdateDate = date5
+            });
+
+            var date6 = new DateTime(2018, 5, 25);
+            empls.Add(new Employee
+            {
+                Id = 6,
+                FirstName = "Sarah",
+                LastName = "Kennis",
+                CityId = 3,
+                Address = "8000 Westmount",
+                DepartmentId = 1,
+                CreateDate = date6,
+                UpdateDate = date6
+            });
+
+            var date7 = new DateTime(2018, 5, 25);
+            empls.Add(new Employee
+            {
+                Id = 7,
+                FirstName = "Bree",
+                LastName = "Brown",
+                CityId = 7,
+                Address = "355 Peel",
+                DepartmentId = 3,
+                CreateDate = date7,
+                UpdateDate = date7
+            });
+
+            var date8 = new DateTime(2018, 5, 25);
+            empls.Add(new Employee
+            {
+                Id = 4,
+                FirstName = "Taylor",
+                LastName = "Swift",
+                CityId = 9,
+                Address = "5556 Harcon",
+                DepartmentId = 2,
+                CreateDate = date8,
+                UpdateDate = date8
+            });
+
             return empls;
         }
     }

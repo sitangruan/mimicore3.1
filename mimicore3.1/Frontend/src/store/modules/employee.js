@@ -2,6 +2,7 @@ import apiCaller from '../../api/apiCaller';
 
 const state = {
   isEditMode: false,
+  isListViewMode: true,
   employees: [],
   currentEmployeeId: 0,
   activeComponentIndex: 0,
@@ -73,6 +74,7 @@ function compareEmployee(stateParam) {
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const getters = {
   isEditMode: state => state.isEditMode,
+  isListViewMode: state => state.isListViewMode,
   employees: state => state.employees,
   sortedEmployees: state => {
     const myFilter = state.filterValue.toLowerCase();
@@ -185,6 +187,9 @@ const mutations = {
   },
   setIsEditMode(state, payload) {
     state.isEditMode = payload;
+  },
+  toggleViewMode(state) {
+    state.isListViewMode = !state.isListViewMode;
   },
 };
 

@@ -95,6 +95,7 @@ body {
 }
 .main {
   min-height: 500px;
+  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;

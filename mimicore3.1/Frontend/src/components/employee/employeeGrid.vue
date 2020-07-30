@@ -14,16 +14,16 @@
           <div class="searchIcon" title="Search" @click="doSearch()"></div>
         </div>
         <div class="viewSwitch">
-          <div class="viewBox" title="List View" :class="[currentViewMode == 'List' ? 'isActive' : '']">
-            <div class="viewIcon list isActive" @click="toggleView()"></div>
+          <div class="viewBox" title="List View" :class="[isListViewMode ? 'isActive' : '']">
+            <div class="viewIcon list isActive" @click="toggleViewMode()"></div>
           </div>
-          <div class="viewBox" title="List View" :class="[currentViewMode == 'Card' ? 'isActive' : '']">
-            <div class="viewIcon card" title="Card View" @click="toggleView()"></div>
+          <div class="viewBox" title="List View" :class="[!isListViewMode ? 'isActive' : '']">
+            <div class="viewIcon card" title="Card View" @click="toggleViewMode()"></div>
           </div>
         </div>
       </div>
     </div>
-    <employee-list-view v-if="currentViewMode == 'List'"></employee-list-view>
+    <employee-list-view v-if="isListViewMode"></employee-list-view>
     <employee-card-view v-else></employee-card-view>
   </div>
 </template>
@@ -41,19 +41,15 @@ export default {
   },
   data() {
     return {
-      currentViewMode: 'List',
       searchText: '',
     };
   },
   computed: {
-    ...mapGetters('employee', ['filterValue']),
+    ...mapGetters('employee', ['filterValue', 'isListViewMode']),
   },
   methods: {
     ...mapActions('employee', ['navigateToCreateEditPage', 'setFilterValue']),
-    ...mapMutations('employee', ['setFilterValue']),
-    toggleView() {
-      this.currentViewMode = this.currentViewMode === 'List' ? 'Card' : 'List';
-    },
+    ...mapMutations('employee', ['setFilterValue', 'toggleViewMode']),
     doSearch() {
       this.setFilterValue(this.searchText);
     },
