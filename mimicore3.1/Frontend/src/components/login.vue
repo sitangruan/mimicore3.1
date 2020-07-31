@@ -40,7 +40,7 @@ export default {
   methods: {
     doLogin() {
       axios
-        .post('Login/Index', {
+        .post('/Login/Index', {
           UserName: this.userName,
           Password: this.password,
         })

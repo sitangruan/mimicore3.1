@@ -15,6 +15,7 @@ const urls = {
   CreateUpdateEmployee: '/Employee/CreateUpdateEmployee',
   getProvinceCities: '/Common/GetProvinceCities',
   getDepartments: '/Common/GetDepartments',
+  logout: '/Login/Logout',
 };
 
 function callbackWrapper(data, originalCallBack) {
@@ -89,6 +90,16 @@ export default {
   getDepartments(callback, errorHandler) {
     axios
       .get(urls.getDepartments)
+      .then(({ data }) => {
+        callbackWrapper(data, callback);
+      })
+      .catch(error => {
+        errorHandlerWrapper(error, errorHandler);
+      });
+  },
+  logout(callback, errorHandler) {
+    axios
+      .post(urls.logout)
       .then(({ data }) => {
         callbackWrapper(data, callback);
       })

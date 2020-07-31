@@ -65,6 +65,13 @@ namespace mimicore3._1.Controllers
             });
         }
 
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return NoContent();
+        }
+
         private List<ModulePermission> GenerateMockPermissions()
         {
             var modules = new List<ModulePermission>

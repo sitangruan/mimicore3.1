@@ -12,7 +12,7 @@
       <transition name="fade">
         <div v-click-outside="clickOutsideSetting" class="settingDropdown" v-if="isSettingExpanded">
           <div class="settingDropdownItem">Help</div>
-          <div class="settingDropdownItem">Logout</div>
+          <div class="settingDropdownItem" @click="logout()">Logout</div>
         </div>
       </transition>
     </div>
@@ -22,6 +22,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import ClickOutside from 'vue-click-outside';
+import apiCaller from '../../api/apiCaller';
 
 export default {
   name: 'headerBar',
@@ -49,6 +50,16 @@ export default {
       } else {
         this.expandClicked = false;
       }
+    },
+    logout() {
+      apiCaller.logout(
+        () => {
+          window.location.href = '/Login/Index';
+        },
+        error => {
+          console.log(error);
+        },
+      );
     },
   },
   created() {
