@@ -3,12 +3,14 @@ import apiCaller from '../../api/apiCaller';
 const state = {
   provinceCities: [],
   departments: [],
+  isHelpModalVisible: false,
 };
 
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const getters = {
   provinceCities: state => state.provinceCities,
   departments: state => state.departments,
+  isHelpModalVisible: state => state.isHelpModalVisible,
 };
 
 const actions = {
@@ -40,6 +42,9 @@ const mutations = {
   },
   setDepartments(state, payload) {
     state.departments = payload;
+  },
+  setIsHelpModalVisible(state, payload) {
+    state.isHelpModalVisible = payload;
   },
 };
 

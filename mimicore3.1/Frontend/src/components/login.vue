@@ -155,6 +155,7 @@ body {
           border-width: 1px;
           width: 100px;
           height: 24px;
+          font-family: Oswald-Regular;
         }
       }
     }

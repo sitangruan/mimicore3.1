@@ -11,23 +11,26 @@
       </div>
       <transition name="fade">
         <div v-click-outside="clickOutsideSetting" class="settingDropdown" v-if="isSettingExpanded">
-          <div class="settingDropdownItem">Help</div>
+          <div class="settingDropdownItem" @click="setIsHelpModalVisible(true)">Help</div>
           <div class="settingDropdownItem" @click="logout()">Logout</div>
         </div>
       </transition>
     </div>
+    <help-modal v-if="isHelpModalVisible"></help-modal>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import ClickOutside from 'vue-click-outside';
 import apiCaller from '../../api/apiCaller';
+import helpModal from './helpModal';
 
 export default {
   name: 'headerBar',
   computed: {
     ...mapGetters('user', ['currentUser']),
+    ...mapGetters('common', ['isHelpModalVisible']),
   },
   data() {
     return {
@@ -35,11 +38,15 @@ export default {
       expandClicked: false,
     };
   },
+  components: {
+    helpModal,
+  },
   directives: {
     ClickOutside,
   },
   methods: {
     ...mapActions('user', ['getCurrentUser']),
+    ...mapMutations('common', ['setIsHelpModalVisible']),
     toggleSettingDropdown() {
       this.expandClicked = true;
       this.isSettingExpanded = !this.isSettingExpanded;
