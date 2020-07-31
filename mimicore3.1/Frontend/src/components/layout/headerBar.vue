@@ -110,6 +110,7 @@ export default {
         background-size: 100% 100%;
         width: 24px;
         height: 24px;
+        transition: all 0.3s ease-in-out;
         &.up {
           transform: rotate(180deg);
         }
@@ -132,7 +133,7 @@ export default {
         justify-content: center;
         align-items: center;
         box-shadow: 0 1px 6px 0 rgba(60, 73, 112, 0.25);
-        transition: all 0.2s ease-in-out;
+        transition: all 0.3s ease-in-out;
         &:hover {
           background-color: #a9c5d4;
         }

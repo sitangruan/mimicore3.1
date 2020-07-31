@@ -1,6 +1,6 @@
 <template>
   <div class="logModal">
-    This is Log component
+    This is the Log component. I disable it so you cannot see! Find your own way to unlock it! Hahaha...
   </div>
 </template>
 

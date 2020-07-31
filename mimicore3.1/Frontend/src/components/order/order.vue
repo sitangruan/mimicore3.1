@@ -1,6 +1,6 @@
 <template>
   <div class="orderModal">
-    This is Order component
+    This is the Order component. Feel free to implement it!
   </div>
 </template>
 

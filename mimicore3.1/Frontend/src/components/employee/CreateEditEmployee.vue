@@ -3,7 +3,7 @@
     <div class="functionRow">
       <div class="buttonContainer" @click="navigateToGridPage()">
         <div class="icon"></div>
-        <div>{{ isEditMode ? 'Edit Employee' : 'Create New Employees' }}</div>
+        <div>{{ isEditMode ? 'Edit Employee' : 'Create New Employee' }}</div>
       </div>
     </div>
     <div class="content">
